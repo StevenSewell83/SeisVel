@@ -1,6 +1,6 @@
 # Troubleshooting and FAQ
 
-Start with `osv doctor --config config.yaml`: it checks the tools, the smoke tests, free disk
+Start with `seisvel doctor --config config.yaml`: it checks the tools, the smoke tests, free disk
 space, write permission on the work directory, and whether your data fit the VELEST array limits.
 Then open `<workdir>/index.html` (the project report), which lists every QC failure and warning
 by stage. A stage that fails writes the traceback to its `manifest.json` (`error`) and to
@@ -8,14 +8,14 @@ by stage. A stage that fails writes the traceback to its `manifest.json` (`error
 
 ## Installation and environment
 
-**`velest` or `fm3d` not found.** Activate the environment (`conda activate osv`) or set
+**`velest` or `fm3d` not found.** Activate the environment (`conda activate seisvel`) or set
 `OSV_TOOLS_DIR=<env>/bin/osv-tools`; rebuild with `./install.sh --clean`. See
 [installation](install.md#troubleshooting).
 
 **Disk space.** The installer needs about 6 GB. A project is dominated by the FMTOMO runs:
 the propagation grid of the rk-nm-2017 example has 2.3 M nodes (about 0.5 GB of memory per
 `fm3d` process), and the trade-off sweep and resolution tests each run many inversions in their
-own directories. Expect several GB to tens of GB for a project with a fine grid. `osv doctor
+own directories. Expect several GB to tens of GB for a project with a fine grid. `seisvel doctor
 --config config.yaml` reports free space on the work directory and `TMPDIR`; set
 `project.workdir` and `TMPDIR` to a large disk, and lower `project.n_jobs` if memory runs out
 (each parallel FMTOMO job holds its own propagation grid).
@@ -23,7 +23,7 @@ own directories. Expect several GB to tens of GB for a project with a fine grid.
 **`PROJ_DATA` / `proj.db` errors (EPSG lookups fail, "no database context").** An older PROJ
 installation (conda, system or GDAL) shadows the one bundled with pyproj. `osv` overrides a
 stale `PROJ_DATA` automatically unless `OSV_KEEP_PROJ_DATA=1` is set. If you still see errors,
-`unset PROJ_DATA PROJ_LIB`, or point `PROJ_DATA` at the directory printed by `osv doctor`.
+`unset PROJ_DATA PROJ_LIB`, or point `PROJ_DATA` at the directory printed by `seisvel doctor`.
 
 ## Data preparation
 
@@ -49,10 +49,10 @@ datum shifts all events vertically and shows up as large systematic travel-time 
 ## VELEST (Stage 2)
 
 **"all N VELEST runs failed".** Open `02_velest_mc/runs/<run>/` and read the `*.log` and
-`status.json`. Typical causes: the `velest` binary cannot start (run `osv doctor`), the data
-exceed the compiled array limits (`osv doctor --config ...` shows `project:ieq/ist/maxobs`,
+`status.json`. Typical causes: the `velest` binary cannot start (run `seisvel doctor`), the data
+exceed the compiled array limits (`seisvel doctor --config ...` shows `project:ieq/ist/maxobs`,
 rebuild with `./install.sh --velest-ieq ...`), or invalid input files. Fix the cause and run
-`osv velest-mc --force`.
+`seisvel velest-mc --force`.
 
 **VELEST divergence (`0% of runs converged`, `1 of 201 runs diverged`).** VELEST runs that stop
 after "four backups" (RMS rose) are marked diverged. Occasional divergence from random starts is
@@ -129,13 +129,13 @@ Keep the delays applied and, if a borehole station looks odd, check its StationX
 elevation (see [borehole stations](#data-preparation)) rather than switching the delay off. To repeat the
 comparison, set `model3d.apply_velest_station_delays` or `model3d.velest_station_delays_exclude`
 in a copy of the config with a separate `project.workdir`, link the Stage 1-2 and 5 directories and run
-`osv build-model`, `osv invert`, `osv analyse` and `osv validation`.
+`seisvel build-model`, `seisvel invert`, `seisvel analyse` and `seisvel validation`.
 
 ## Poor resolution
 
 "Only 2.6% of the volume has DWS >= 0.1" and "50% of the covered volume is resolved at some tested scale" (with only 26% at 2 km) (the
 example) indicate sparse ray coverage. Do not interpret features outside the resolvable mask,
-which the analysis figures draw once `osv resolution` has run. To improve: use more events or
+which the analysis figures draw once `seisvel resolution` has run. To improve: use more events or
 stations, relax `data_selection` thresholds (carefully), use a coarser grid
 (`model3d.grid.dx_km`, `dy_km`, `dz_km`), stronger smoothing, or test larger checkerboard sizes
 (`resolution.checkerboard.cell_km`). Compare the result with the 1-D relocation in Stage 7: if the
@@ -144,7 +144,7 @@ added 3-D structure.
 
 ## Re-running and stale stages
 
-Edit `config.yaml` and run `osv run`: stages whose config sections, inputs, upstream runs or tool
+Edit `config.yaml` and run `seisvel run`: stages whose config sections, inputs, upstream runs or tool
 binaries changed are re-run, all others are skipped. To force a stage use `--force`; to redo
-figures only use `osv plot STAGE`. Each executable run lives in its own directory, so you can
+figures only use `seisvel plot STAGE`. Each executable run lives in its own directory, so you can
 inspect the exact control files and logs of any run.

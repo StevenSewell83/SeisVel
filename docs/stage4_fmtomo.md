@@ -1,14 +1,14 @@
-# Stage 4: trade-off sweeps and the FMTOMO inversion (`osv tradeoff`, `osv invert`)
+# Stage 4: trade-off sweeps and the FMTOMO inversion (`seisvel tradeoff`, `seisvel invert`)
 
 Chooses the damping and smoothing with L-curves, then runs the final 3-D inversion with `fm3d`,
-`frechgen`, `invert3d` and `residuals` (`osv.fmtomo`). Needs the `fm3d` toolchain (`osv doctor`) and a
-completed Stage 3 (`osv build-model`).
+`frechgen`, `invert3d` and `residuals` (`osv.fmtomo`). Needs the `fm3d` toolchain (`seisvel doctor`) and a
+completed Stage 3 (`seisvel build-model`).
 
 ```bash
-osv tradeoff -c config.yaml            # -> <workdir>/05_tradeoff/
-osv invert   -c config.yaml            # -> <workdir>/06_invert/
-osv run --to invert -c config.yaml
-osv plot tradeoff -c config.yaml       # regenerate figures from the written outputs
+seisvel tradeoff -c config.yaml            # -> <workdir>/05_tradeoff/
+seisvel invert   -c config.yaml            # -> <workdir>/06_invert/
+seisvel run --to invert -c config.yaml
+seisvel plot tradeoff -c config.yaml       # regenerate figures from the written outputs
 ```
 
 Open `report.html` of each stage first.
@@ -56,7 +56,7 @@ stations over the whole propagation grid (`arrtimes.dat`), which is large for fi
 
 ## Joint P+S and Vp/Vs (experimental, `package: extras`)
 
-Needs `relocate: nonlinear` and Stage 3 data of both phases (`osv build-model` writes S when `fmtomo.phases`
+Needs `relocate: nonlinear` and Stage 3 data of both phases (`seisvel build-model` writes S when `fmtomo.phases`
 contains `S` or `vpvs`). The Extras programs `jointimes`, `gridlocj`, `mkvpvs`, `frvpvs`, `vpvsinv` and
 `vpvsresids` must be built.
 
@@ -75,7 +75,7 @@ and Stages 5-7 treat them like separate runs. Details of the wiring (`osv.fmtomo
 * P and S events are matched by `event_id` (Stage 3 numbers the events of each phase separately); the
   fourth column of the station `sources.in` is the Extras receiver id (the P station index; S stations of
   the same name share it, S-only stations get a number above the P count).
-* The sweep (`osv tradeoff`) is not coupled: it sweeps damping and smoothing of P and of S separately
+* The sweep (`seisvel tradeoff`) is not coupled: it sweeps damping and smoothing of P and of S separately
   (independent runs, no joint relocation) and the final run uses each phase's own pick. Damping is a
   property of the velocity inversion, the coupling mainly changes the hypocentres. For `[vpvs]` the Vp/Vs
   step is not swept.

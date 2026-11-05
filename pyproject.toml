@@ -3,7 +3,7 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "openseisvelocity"
+name = "seisvel"
 version = "0.1.0"
 description = "Seismic velocity inversion workflow wrapping VELEST and FMTOMO"
 readme = "README.md"
@@ -32,7 +32,7 @@ geo = ["lasio", "rasterio", "pyvista", "cartopy"]
 gmt = ["pygmt"]
 
 [project.scripts]
-osv = "osv.cli:app"
+seisvel = "osv.cli:app"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/osv"]

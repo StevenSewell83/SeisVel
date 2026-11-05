@@ -1,6 +1,6 @@
 # Coordinate and unit conventions
 
-osv stores **true signed coordinates** everywhere: latitude/longitude in degrees (north and
+SeisVel stores **true signed coordinates** everywhere: latitude/longitude in degrees (north and
 east positive, WGS84), depth in km positive down, elevation in m positive up. Only the
 `osv.io.*` writers convert to program conventions, using `osv.coords`.
 
@@ -10,7 +10,7 @@ All references below were verified in the vendored sources / manuals:
 
 ## Summary table
 
-| Item | osv canonical | VELEST | FMTOMO |
+| Item | SeisVel canonical | VELEST | FMTOMO |
 |---|---|---|---|
 | Latitude | degrees, N+ | File: `f7.4` + letter `N`/`S` (CNV `velest.f:3459`, `.sta` `velest.f:1531-1538`). Control `olat`: N positive, S negative (`velest.f:1248-1251`) | degrees, N+, S- (FM p. 15-16; `3dfm_main.f90:418-421`). Spherical angle, not colatitude. `vgrids.in`/`interfaces.in` headers in radians (`grid3dg.f90:164-167`) |
 | Longitude | degrees, E+ | File: `f8.4` + letter `E`/`W`; letters are the truth (E is negated internally, `velest.f:3460`, `1539`). Control `olon`: **W positive**, E negative (`velest.f:1248-1251`, `1259-1263`, `10155-10156`; UG p. 12) | degrees, **E positive**, may exceed 180 (115W = 245E, FM p. 16 and p. 44) |
@@ -76,7 +76,7 @@ All references below were verified in the vendored sources / manuals:
   * `swtfac` multiplies the weight of S (and S-P) observations
     (`w = swtfac / 2**(2*ipwt)`, `velest.f:2077`, `2106`, `5782`); it is used for `nsp = 2`
     and `3` alike and does nothing when S picks are dropped (`nsp = 1`).
-  * osv maps `velest.vpvs.mode` `fixed` and `sampled` to `nsp = 3` (the first with the
+  * SeisVel maps `velest.vpvs.mode` `fixed` and `sampled` to `nsp = 3` (the first with the
     configured `value`, the second with the model's own ratio per job) and
     `independent_s_model` to `nsp = 2`. `nsp = 1` is never used. Model files hold only the
     P block when `nmod = 1`. In ensemble outputs `vs = vp / vpvs` with each run's ratio

@@ -57,7 +57,7 @@ This protocol applies when ending a Beads implementation workflow. It is subordi
 - If a required sync or push is blocked, stop and report the exact command and error.
 <!-- END BEADS INTEGRATION -->
 
-# openSeisVelocity — project rules for agents
+# SeisVel — project rules for agents
 
 The full design is in `PLAN.md`. Read the sections relevant to your task before writing code.
 
@@ -90,7 +90,7 @@ uv pip install -e ".[dev]"           # after pyproject changes
 
 ## Architecture
 
-- Python package `openseisvelocity`, import name `osv`, `src/` layout (`src/osv/...`), console script `osv` (typer).
+- Python package: distribution `seisvel`, import name `osv`, `src/` layout (`src/osv/...`), console script `seisvel` (typer).
 - Subpackages: `config`, `io` (file formats), `data` (Stage 1), `velest` (Stage 2), `model3d` (Stage 3), `fmtomo` (Stage 4), `analysis` (Stage 5), `resolution` (Stage 6), `validation` (Stage 7), `plotting`, `report`; plus `osv.tools` (running executables), `osv.coords`, `osv.stages` (stage framework).
 - Vendored Fortran: `fortran/velest`, `fortran/fmtomo`, `fortran/fmtomo_extras`. Patches are minimal and each one is listed in `fortran/PATCHES.md`.
 - Every stage runs in its own numbered directory under `project.workdir` and writes `manifest.json`, `figures/` and `report.html`.

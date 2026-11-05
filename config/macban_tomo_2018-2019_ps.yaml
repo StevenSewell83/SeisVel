@@ -1,4 +1,4 @@
-# openSeisVelocity configuration: MacBan 2018-2019 JOINT P+S - as macban_tomo_2018-2019.yaml but inverting P and S with coupled gridlocj relocation (P, S-P and unique S times); workdir runs_ps.
+# SeisVel configuration: MacBan 2018-2019 JOINT P+S - as macban_tomo_2018-2019.yaml but inverting P and S with coupled gridlocj relocation (P, S-P and unique S times); workdir runs_ps.
 # Run directory: /media/steve/fast9100/runs/macban_tomo_2018-2019/velest
 # Data: catalogue and StationXML exported there from the OpenMEQ run
 # (/media/steve/fast9100/runs/macban_tomo_2018-2019/config_snapshot.yaml).

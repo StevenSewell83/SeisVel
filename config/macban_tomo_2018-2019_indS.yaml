@@ -1,4 +1,4 @@
-# openSeisVelocity configuration: MacBan 2018-2019 (16 stations, OpenMEQ catalogue).
+# SeisVel configuration: MacBan 2018-2019 (16 stations, OpenMEQ catalogue).
 # Run directory: /media/steve/fast9100/runs/macban_tomo_2018-2019/velest_indS
 # Data: catalogue and StationXML exported there from the OpenMEQ run
 # (/media/steve/fast9100/runs/macban_tomo_2018-2019/config_snapshot.yaml).

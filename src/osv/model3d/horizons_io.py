@@ -168,7 +168,7 @@ def read_geotiff(
     except ImportError as exc:
         raise ImportError(
             "Reading GeoTIFF horizons needs the optional 'rasterio' package: "
-            "install it with `pip install rasterio` (or `pip install openseisvelocity[geo]`)"
+            "install it with `pip install rasterio` (or `pip install seisvel[geo]`)"
         ) from exc
     path = Path(path)
     with rasterio.open(path) as src:

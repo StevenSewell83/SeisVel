@@ -1,4 +1,4 @@
-# openSeisVelocity — Development Plan
+# SeisVel — Development Plan
 
 Earthquake-based velocity inversion package for microseismic datasets:
 **Monte Carlo VELEST** (1D minimum model) → **3D starting model** → **FMTOMO** 3D inversion (with trade-off curves) → **analysis** → **resolution testing** (checkerboard, spike, input-model).
@@ -24,10 +24,10 @@ _Last updated: 2026-10-17_
 
 ## 2. Architecture
 
-A Python package (`openseisvelocity`, command `osv`) that runs the existing Fortran programs, with the Fortran source kept essentially as distributed. Python handles setup, file formats, parallel runs, analysis and plotting.
+A Python package (`seisvel`, command `seisvel`) that runs the existing Fortran programs, with the Fortran source kept essentially as distributed. Python handles setup, file formats, parallel runs, analysis and plotting.
 
 ```
-openSeisVelocity/
+SeisVel/
 ├── install.sh / install.py   # one-command installer
 ├── environment.yml           # conda-forge environment
 ├── Dockerfile / apptainer.def
@@ -59,13 +59,13 @@ openSeisVelocity/
 ## 3. Installer and environment
 
 ```bash
-./install.sh            # or: python install.py --prefix ~/osv --no-gmt --jobs 8
-osv doctor              # checks the whole toolchain and runs the smoke tests
+./install.sh            # or: python install.py --prefix ~/seisvel --no-gmt --jobs 8
+seisvel doctor              # checks the whole toolchain and runs the smoke tests
 ```
 
 **What `install.sh` does:**
 1. **Checks the system:** OS, architecture, disk space, and whether conda, mamba or micromamba is available. If none is, it installs micromamba locally, without needing sudo.
-2. **Creates the `osv` environment** from `environment.yml` (conda-forge):
+2. **Creates the `seisvel` environment** from `environment.yml` (conda-forge):
    - `gfortran` (conda-forge compilers), `make`, `cmake`.
    - `python=3.11`, `obspy`, `numpy`, `scipy`, `pandas`, `xarray`, `netcdf4`, `matplotlib`, `cartopy`, `pyproj`, `pydantic`, `pyyaml`, `typer`, `joblib`, `lasio`, `rasterio`, `pyvista`.
    - Optional: `gmt`, `pygmt`.
@@ -80,13 +80,13 @@ osv doctor              # checks the whole toolchain and runs the smoke tests
 
 **Other routes:** Docker/Apptainer images for HPC clusters, and `--system-compilers` for machines that already have gfortran.
 
-**`osv doctor`** reports executable versions, the compiler and flags used, the VELEST array limits, CPU count and missing optional packages. Each problem comes with the fix.
+**`seisvel doctor`** reports executable versions, the compiler and flags used, the VELEST array limits, CPU count and missing optional packages. Each problem comes with the fix.
 
 ---
 
 ## 4. Configuration (`config.yaml`)
 
-Every user setting lives in this file. It is checked by a pydantic schema when loaded, so a mistake gives an error naming the bad key. `osv init <project>` writes a fully commented template, and `osv config show` prints the settings actually in use. Each stage saves a copy of the config it ran with in its manifest.
+Every user setting lives in this file. It is checked by a pydantic schema when loaded, so a mistake gives an error naming the bad key. `seisvel init <project>` writes a fully commented template, and `seisvel config show` prints the settings actually in use. Each stage saves a copy of the config it ran with in its manifest.
 
 ```yaml
 project:
@@ -315,12 +315,12 @@ There are four ways to build it, and the 1D background always fills any area the
 ## 6. Command line
 
 ```
-osv init | doctor | prep | velest-mc | velest-analyse | build-model |
+seisvel init | doctor | prep | velest-mc | velest-analyse | build-model |
     tradeoff | invert | analyse | resolution | report | run --all
 ```
 - `--from` / `--to` / `--force` re-run stages.
-- `osv plot <stage>` regenerates figures without re-running the stage.
-- `osv config show` prints the settings in use.
+- `seisvel plot <stage>` regenerates figures without re-running the stage.
+- `seisvel config show` prints the settings in use.
 
 ---
 
@@ -328,7 +328,7 @@ osv init | doctor | prep | velest-mc | velest-analyse | build-model |
 
 | Milestone | Delivers | Checked against |
 |---|---|---|
-| M1 | Installer, `osv doctor`, CMake build of all Fortran, config schema and template, cnv/sta/mod I/O | Round-trip tests; FMTOMO example1 |
+| M1 | Installer, `seisvel doctor`, CMake build of all Fortran, config schema and template, cnv/sta/mod I/O | Round-trip tests; FMTOMO example1 |
 | M2 | StationXML/QuakeML prep, QC and figures | Test dataset (below) |
 | M3 | Parallel MC VELEST, analysis and figures | Compare with previous Ngatamariki MC runs |
 | M4 | 3D builder: 1D extrusion, user grid, geology horizons, wells; figures | Synthetic 1D gives zero residuals |

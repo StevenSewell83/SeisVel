@@ -1,4 +1,4 @@
-# openSeisVelocity configuration: MacBan 2018-2019 JOINT P+S WITH ITERATED STATION TERMS - only the VELEST 1-D model is used (no VELEST station delays); shallow nodes strongly damped; P and S station terms estimated in the 3-D model; workdir runs_ps_terms.
+# SeisVel configuration: MacBan 2018-2019 JOINT P+S WITH ITERATED STATION TERMS - only the VELEST 1-D model is used (no VELEST station delays); shallow nodes strongly damped; P and S station terms estimated in the 3-D model; workdir runs_ps_terms.
 # Run directory: /media/steve/fast9100/runs/macban_tomo_2018-2019/velest
 # Data: catalogue and StationXML exported there from the OpenMEQ run
 # (/media/steve/fast9100/runs/macban_tomo_2018-2019/config_snapshot.yaml).

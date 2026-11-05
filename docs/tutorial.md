@@ -6,25 +6,25 @@ come from the `manifest.json` summaries of that run (single workstation, 20 jobs
 will differ, but the sequence, the files and the way to read them are the same. Figures are
 copied from the run's `figures/` directories.
 
-You need a working installation ([installation](install.md); `osv doctor` must not report FAIL)
+You need a working installation ([installation](install.md); `seisvel doctor` must not report FAIL)
 and a project directory with a `config.yaml` (see `projects/example/README.md` in the repository
 for how to create one). The example project's config points at a QuakeML catalogue
 (`manual_only_catalog.xml`) and StationXML files.
 
 ```bash
-conda activate osv
+conda activate seisvel
 cd projects/rk-nm-2017
-osv doctor --config config.yaml        # tools, smoke tests, disk space, VELEST array limits
-osv config show -c config.yaml         # check the settings in use
-osv run -c config.yaml                 # everything, about 2.5 hours with 20 jobs
+seisvel doctor --config config.yaml        # tools, smoke tests, disk space, VELEST array limits
+seisvel config show -c config.yaml         # check the settings in use
+seisvel run -c config.yaml                 # everything, about 2.5 hours with 20 jobs
 ```
 
-You can also run the stages one at a time (`osv prep`, `osv velest-mc`, ...), which is what the
+You can also run the stages one at a time (`seisvel prep`, `seisvel velest-mc`, ...), which is what the
 sections below do. Every stage:
 
 * reads its inputs from upstream stage directories (it refuses to run if they are missing);
 * writes `<workdir>/NN_name/` with `manifest.json`, `figures/`, `logs/` and `report.html`;
-* is skipped on the next `osv run` unless its config section, inputs, upstream runs or tools changed.
+* is skipped on the next `seisvel run` unless its config section, inputs, upstream runs or tools changed.
 
 Open `<workdir>/index.html` at any time for the project report; it shows what exists so far.
 
@@ -36,10 +36,10 @@ files written. Failures stop the pipeline; warnings do not, but each one deserve
 `manifest.json` holds the same information in machine-readable form (`status`, `wall_time_s`,
 `checks`, `summary`, `outputs`, `error`).
 
-## Stage 1: prepare the data (`osv prep`, 7 s)
+## Stage 1: prepare the data (`seisvel prep`, 7 s)
 
 ```bash
-osv prep -c config.yaml
+seisvel prep -c config.yaml
 ```
 
 Reads the catalogue and StationXML, applies the depth datum, associates picks with station
@@ -76,11 +76,11 @@ Typical warnings and what to do:
   1-D misfit; Stage 2 estimates station delays.
 * *"11 events have a per-event Vp/Vs inconsistent with the median"* - usually few S picks.
 
-## Stage 2: Monte Carlo VELEST (`osv velest-mc`, `osv velest-analyse`)
+## Stage 2: Monte Carlo VELEST (`seisvel velest-mc`, `seisvel velest-analyse`)
 
 ```bash
-osv velest-mc -c config.yaml        # 201 VELEST runs in parallel
-osv velest-analyse -c config.yaml   # select, stability tests, delays, Vp/Vs grid, final model, 30 s
+seisvel velest-mc -c config.yaml        # 201 VELEST runs in parallel
+seisvel velest-analyse -c config.yaml   # select, stability tests, delays, Vp/Vs grid, final model, 30 s
 ```
 
 `velest-mc` draws 200 random starting models (Latin hypercube within `velest.vp_bounds`) plus the
@@ -127,10 +127,10 @@ Typical warnings:
 * *"reference station swapped from NS14 ..."* is an informational line; the Vp deviation is only
   0.03 km/s, so the model does not depend on the reference station.
 
-## Stage 3: build the 3-D starting model (`osv build-model`, 62 s)
+## Stage 3: build the 3-D starting model (`seisvel build-model`, 62 s)
 
 ```bash
-osv build-model -c config.yaml
+seisvel build-model -c config.yaml
 ```
 
 Extrudes the final 1-D model into a 3-D FMTOMO grid (`model3d.grid`), optionally blends in your own
@@ -167,11 +167,11 @@ Typical warnings:
   [borehole stations and station delays](troubleshooting.md#borehole-stations-and-station-delays)
   for why the VELEST delays are still applied.
 
-## Stage 4: damping, smoothing and the inversion (`osv tradeoff`, `osv invert`)
+## Stage 4: damping, smoothing and the inversion (`seisvel tradeoff`, `seisvel invert`)
 
 ```bash
-osv tradeoff -c config.yaml     # 14 short inversions, about 40 min
-osv invert -c config.yaml       # final inversion with relocation, about 6 min
+seisvel tradeoff -c config.yaml     # 14 short inversions, about 40 min
+seisvel invert -c config.yaml       # final inversion with relocation, about 6 min
 ```
 
 `tradeoff` sweeps the damping and smoothing, builds L-curves of data misfit against model norm
@@ -207,10 +207,10 @@ Typical warnings:
 * *"reduced chi-squared is 2.82, not near 1"* - the stated pick uncertainties are smaller than
   the achievable fit; the inversion is an RMS reduction, not a statistical fit.
 
-## Stage 5: analyse the inversion (`osv analyse`, 11 s)
+## Stage 5: analyse the inversion (`seisvel analyse`, 11 s)
 
 ```bash
-osv analyse -c config.yaml
+seisvel analyse -c config.yaml
 ```
 
 Computes perturbation statistics, produces the figures and the exports (NetCDF, CSV, VTK) and masks everything the data cannot see (`plotting.dws_mask_threshold`).
@@ -218,7 +218,7 @@ Computes perturbation statistics, produces the figures and the exports (NetCDF, 
 Look at: `slices_vp`, `section_a_a`, `compare_start_final_vp`, `variance_reduction`,
 `residual_vs_azimuth` and `station_residual_map`. Only 2.6% of the Vp volume has DWS of at least
 0.1 here, so most of the model is masked; that is the data, not a bug. After running Stage 6, run
-`osv plot analyse -c config.yaml` to add the `_resolvable` figures that show only what the
+`seisvel plot analyse -c config.yaml` to add the `_resolvable` figures that show only what the
 resolution tests recovered. Details: [Stage 5](stage5_analysis.md).
 
 Anomalies in the shallow (to about 2 km) core of the array are the only part of the model that
@@ -229,10 +229,10 @@ model, masked to the resolvable volume (1.4% of all nodes):
 
 ![Start versus final model, resolvable volume only](img/analyse_compare_resolvable.png)
 
-## Stage 6: resolution tests (`osv resolution`, about 45 min)
+## Stage 6: resolution tests (`seisvel resolution`, about 45 min)
 
 ```bash
-osv resolution -c config.yaml
+seisvel resolution -c config.yaml
 ```
 
 Inverts synthetic data (checkerboards of 1.5, 2 and 3 km cells, spikes, and your own anomaly
@@ -254,10 +254,10 @@ passes `resolution.mask`. Warning *"median resolved scale 2 km is coarser than t
 anomaly of interest"* tells you that features smaller than that must not be interpreted.
 Details: [Stage 6](stage6_resolution.md).
 
-## Stage 7: validation (`osv validation`, 130 s)
+## Stage 7: validation (`seisvel validation`, 130 s)
 
 ```bash
-osv validation -c config.yaml
+seisvel validation -c config.yaml
 ```
 
 Relocates the 12 held-out events with VELEST in the final 1-D model and with FMTOMO in the final 3-D
@@ -277,10 +277,10 @@ only 12 events the test has little power: 10 of 12 events improve and p = 0.027 
 0.05 on the two-sided test, but a single event can still change that. Details:
 [Stage 7](stage7_validation.md).
 
-## The project report (`osv report`)
+## The project report (`seisvel report`)
 
 ```bash
-osv report -c config.yaml
+seisvel report -c config.yaml
 open runs/index.html
 ```
 
@@ -291,9 +291,9 @@ See [reporting](reporting.md).
 
 ## Iterating
 
-* Change a setting in `config.yaml` and run `osv run`: only the affected stages and everything
+* Change a setting in `config.yaml` and run `seisvel run`: only the affected stages and everything
   downstream re-run.
-* To tweak figures only, edit the `plotting` section and run `osv plot STAGE`.
-* To redo one stage use `osv STAGE --force`.
+* To tweak figures only, edit the `plotting` section and run `seisvel plot STAGE`.
+* To redo one stage use `seisvel STAGE --force`.
 * To start over, delete the stage directories (or the whole `workdir`).
 * Use [troubleshooting](troubleshooting.md) when a stage fails or a warning is unclear.

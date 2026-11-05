@@ -1,6 +1,6 @@
 # Setting up a new project
 
-This directory documents the layout of an openSeisVelocity project; it holds no data and no
+This directory documents the layout of an SeisVel project; it holds no data and no
 `config.yaml`. A project is any directory containing a `config.yaml`. A complete worked example is
 `projects/rk-nm-2017`, explained step by step in the
 [tutorial](../../docs/tutorial.md).
@@ -8,13 +8,13 @@ This directory documents the layout of an openSeisVelocity project; it holds no 
 ## 1. Create the project
 
 ```bash
-conda activate osv
-osv init projects/mysite            # or: osv init /data/mysite --name mysite
+conda activate seisvel
+seisvel init projects/mysite            # or: seisvel init /data/mysite --name mysite
 ```
 
 This writes `projects/mysite/config.yaml`: every setting of the schema with its default, allowed
 values and a description as comments. (The same keys are listed in the
-[configuration reference](../../docs/config_reference.md).) `osv init` refuses to overwrite an
+[configuration reference](../../docs/config_reference.md).) `seisvel init` refuses to overwrite an
 existing config unless you pass `--force`.
 
 ## 2. Lay out your data
@@ -28,7 +28,7 @@ projects/mysite/
     network2.xml
   dem.tif                  # optional GeoTIFF elevation model (inputs.dem)
   geology/, wells/         # optional, for user models (see docs/user_models.md)
-  runs/                    # created by osv: one numbered directory per stage
+  runs/                    # created by seisvel: one numbered directory per stage
 ```
 
 The files can live anywhere: relative paths in `config.yaml` are resolved against the directory
@@ -67,7 +67,7 @@ velest:
   vp_bounds: [[1.9, 3.6], [2.8, 4.3], ...]   # one [lower, upper] pair per layer
 ```
 
-Everything else has defaults. Check what will be used with `osv config show -c config.yaml`;
+Everything else has defaults. Check what will be used with `seisvel config show -c config.yaml`;
 validation errors name the offending key. Choose the layers using the guidance in
 [Stage 2](../../docs/stage2_velest.md#choosing-layers-and-damping), and read
 [conventions](../../docs/conventions.md) for the coordinate and depth conventions.
@@ -76,9 +76,9 @@ validation errors name the offending key. Choose the layers using the guidance i
 
 ```bash
 cd projects/mysite
-osv doctor --config config.yaml     # tools, disk space, VELEST array limits for your data
-osv prep                            # start with Stage 1 and read runs/01_prep/report.html
-osv run                             # then the rest; re-running skips up-to-date stages
+seisvel doctor --config config.yaml     # tools, disk space, VELEST array limits for your data
+seisvel prep                            # start with Stage 1 and read runs/01_prep/report.html
+seisvel run                             # then the rest; re-running skips up-to-date stages
 ```
 
 Run the early stages one at a time on a new dataset and read their reports before continuing;

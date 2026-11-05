@@ -1,16 +1,16 @@
 #!/usr/bin/env bash
-# openSeisVelocity one-command installer.
+# SeisVel one-command installer.
 #
 # Usage: ./install.sh [options]
 #
 # Python environment:
-#   --env-name NAME      conda environment name (default: osv)
+#   --env-name NAME      conda environment name (default: seisvel)
 #   --prefix PATH        environment location (conda -p / venv directory) instead of a name
 #   --no-gmt             skip the optional GMT/PyGMT add-on (environment-gmt.yml)
 #   --system-compilers   use the system gfortran/cmake/make instead of conda-forge compilers
 #   --venv               create a Python venv (uv if available, else python -m venv) and pip
 #                        install, instead of a conda environment; implies --system-compilers
-#                        (default prefix: ~/.local/share/osv/venv). GMT is not installed.
+#                        (default prefix: ~/.local/share/seisvel/venv). GMT is not installed.
 #   --conda-exe PATH     use this conda/mamba/micromamba executable (env OSV_CONDA_EXE)
 # Build / install:
 #   --jobs N             parallel build jobs (default: nproc)
@@ -26,17 +26,17 @@
 #
 # Environment variables: OSV_MICROMAMBA_URL (download URL of the micromamba tarball or binary;
 # tried before the built-in micro.mamba.pm and GitHub mirrors),
-# OSV_MICROMAMBA_HOME (default ~/.local/osv-micromamba), OSV_CONDA_EXE.
+# OSV_MICROMAMBA_HOME (default ~/.local/seisvel-micromamba), OSV_CONDA_EXE.
 # Re-running is safe: existing environments are updated, the build is incremental.
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-ENV_NAME="osv"; PREFIX=""; GMT=1; SYSTEM_COMPILERS=0; VENV=0; CONDA_EXE_ARG="${OSV_CONDA_EXE:-}"
+ENV_NAME="seisvel"; PREFIX=""; GMT=1; SYSTEM_COMPILERS=0; VENV=0; CONDA_EXE_ARG="${OSV_CONDA_EXE:-}"
 JOBS="$(nproc 2>/dev/null || sysctl -n hw.ncpu 2>/dev/null || echo 2)"
 DEV=0; SKIP_TESTS=0; DRY_RUN=0; FORCE=0
 BUILD_ARGS=()
-MICROMAMBA_HOME="${OSV_MICROMAMBA_HOME:-$HOME/.local/osv-micromamba}"
+MICROMAMBA_HOME="${OSV_MICROMAMBA_HOME:-$HOME/.local/seisvel-micromamba}"
 # micromamba download URLs, tried in order (a .tar.bz2 package or a bare executable);
 # {PLATFORM} is replaced by linux-64, linux-aarch64, osx-64 or osx-arm64.
 MICROMAMBA_URLS=(
@@ -84,10 +84,10 @@ while [[ $# -gt 0 ]]; do
 done
 [[ "$JOBS" =~ ^[0-9]+$ && "$JOBS" -ge 1 ]] || die "--jobs must be a positive integer"
 [[ -f "$ROOT/environment.yml" && -f "$ROOT/scripts/build_fortran.sh" ]] \
-  || die "run install.sh from a complete openSeisVelocity checkout ($ROOT lacks environment.yml)"
+  || die "run install.sh from a complete SeisVel checkout ($ROOT lacks environment.yml)"
 
 if [[ $VENV -eq 1 ]]; then
-  [[ -n "$PREFIX" ]] || PREFIX="$HOME/.local/share/osv/venv"
+  [[ -n "$PREFIX" ]] || PREFIX="$HOME/.local/share/seisvel/venv"
   if [[ $GMT -eq 1 ]]; then GMT=0; log "venv mode: GMT/PyGMT not installed (needs the GMT C library; use the conda route)"; fi
 fi
 [[ -z "$PREFIX" ]] || { mkdir -p "$(dirname "$PREFIX")" 2>/dev/null || true; PREFIX="$(cd "$(dirname "$PREFIX")" 2>/dev/null && pwd)/$(basename "$PREFIX")"; }
@@ -217,7 +217,7 @@ env_run() { # run a command inside the (activated) environment
 conda_file() { # echo the environment file to use (filtered when using system compilers)
   local f="$1"
   if [[ $SYSTEM_COMPILERS -eq 1 && "$f" == "$ROOT/environment.yml" ]]; then
-    local out="${TMPDIR:-/tmp}/osv-environment-$$.yml"
+    local out="${TMPDIR:-/tmp}/seisvel-environment-$$.yml"
     grep -Ev '^[[:space:]]*-[[:space:]]*(fortran-compiler|gfortran|cmake|make)([<>=[:space:]]|$)' "$f" > "$out"
     echo "$out"
   else echo "$f"; fi
@@ -290,7 +290,7 @@ install_package() {
   if [[ $VENV -eq 1 ]]; then extras="${extras:+$extras,}geo"; fi
   spec="${extras:+[$extras]}"
   local mode=(); [[ $DEV -eq 1 ]] && mode=(-e)
-  log "Installing the openseisvelocity package ${mode[*]:+(editable) }${spec:+with extras $extras}"
+  log "Installing the seisvel package ${mode[*]:+(editable) }${spec:+with extras $extras}"
   if [[ $VENV -eq 1 ]]; then
     # Geo extras (rasterio, cartopy, pyvista) can lack wheels on some platforms: fall back without them.
     pip_install "${mode[@]}" "$ROOT$spec" || {
@@ -321,20 +321,20 @@ build_fortran() {
 
 # ---------------------------------------------------------------- checks
 py_in_env() { if [[ $VENV -eq 1 ]]; then "$PREFIX/bin/python" "$@"; else env_run python "$@"; fi; }
-osv_in_env() { if [[ $VENV -eq 1 ]]; then "$PREFIX/bin/osv" "$@"; else env_run osv "$@"; fi; }
+seisvel_in_env() { if [[ $VENV -eq 1 ]]; then "$PREFIX/bin/seisvel" "$@"; else env_run seisvel "$@"; fi; }
 
 smoke_checks() {
   log "Running checks"
   if [[ $DRY_RUN -eq 1 ]]; then
-    echo "[dry-run] osv doctor  (fallback: import osv; which_tool velest/fm3d)"
+    echo "[dry-run] seisvel doctor  (fallback: import osv; which_tool velest/fm3d)"
     [[ $DEV -eq 1 ]] && echo "[dry-run] pytest -q"
     return 0
   fi
   local out rc=0
-  out="$(osv_in_env doctor 2>&1)" || rc=$?
+  out="$(seisvel_in_env doctor 2>&1)" || rc=$?
   if [[ $rc -eq 0 ]]; then echo "$out"
   elif grep -q 'not implemented' <<<"$out"; then
-    echo "    'osv doctor' is not implemented yet; running the minimal smoke check"
+    echo "    'seisvel doctor' is not implemented yet; running the minimal smoke check"
     py_in_env -c '
 import osv
 from osv.tools import which_tool
@@ -343,7 +343,7 @@ for name in ("velest", "fm3d"):
 print("    osv", osv.__version__, "imported from", osv.__file__)
 ' || die "smoke check failed: the osv package or the Fortran tools are not usable"
   else
-    echo "$out" >&2; die "'osv doctor' reported problems (see above)"
+    echo "$out" >&2; die "'seisvel doctor' reported problems (see above)"
   fi
   if [[ $DEV -eq 1 ]]; then
     log "Running the test suite"
@@ -353,7 +353,7 @@ print("    osv", osv.__version__, "imported from", osv.__file__)
 
 summary() {
   echo
-  log "openSeisVelocity installed"
+  log "SeisVel installed"
   echo "    environment: $PREFIX"
   echo "    tools:       $PREFIX/bin/osv-tools"
   if [[ $DRY_RUN -eq 1 ]]; then echo "    (dry run: nothing was changed)"; fi
@@ -362,11 +362,11 @@ summary() {
   elif [[ $MGR_KIND == micromamba ]]; then
     echo "        eval \"\$($MGR shell hook -s bash)\" && micromamba activate ${PREFIX}"
   else echo "        conda activate ${PREFIX}"; fi
-  echo "    then check with:  osv doctor"
+  echo "    then check with:  seisvel doctor"
 }
 
 TESTS_FAILED=0
-log "openSeisVelocity installer$([[ $DRY_RUN -eq 1 ]] && echo ' (dry run)')"
+log "SeisVel installer$([[ $DRY_RUN -eq 1 ]] && echo ' (dry run)')"
 check_system
 if [[ $VENV -eq 1 ]]; then setup_venv; else setup_conda; fi
 build_fortran

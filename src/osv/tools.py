@@ -185,7 +185,7 @@ def _not_found(name: str, tried: Sequence[str]) -> ToolNotFoundError:
         f"Executable '{name}' not found (tried: {', '.join(tried) or 'nothing'}). "
         f"Fix: run ./install.sh (installs into $CONDA_PREFIX/bin/osv-tools/), or set "
         f"{ENV_TOOLS_DIR} to the directory containing the built executables, or give an "
-        f"explicit path in the config. Run `osv doctor` to check the toolchain."
+        f"explicit path in the config. Run `seisvel doctor` to check the toolchain."
     )
 
 

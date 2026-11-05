@@ -1,7 +1,7 @@
-# openSeisVelocity conda environment (conda-forge only).
+# SeisVel conda environment (conda-forge only).
 #   conda env create -f environment.yml          # or use ./install.sh
 # Floors are loose minimums; the solver picks the newest compatible versions.
-name: osv
+name: seisvel
 channels:
   - conda-forge
   - nodefaults

@@ -1,4 +1,4 @@
-site_name: openSeisVelocity
+site_name: SeisVel
 site_description: Earthquake-based velocity inversion workflow wrapping VELEST and FMTOMO
 docs_dir: docs
 strict: true

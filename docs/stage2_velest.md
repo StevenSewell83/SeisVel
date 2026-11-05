@@ -1,13 +1,13 @@
-# Stage 2: Monte Carlo VELEST (`osv velest-mc`, `osv velest-analyse`)
+# Stage 2: Monte Carlo VELEST (`seisvel velest-mc`, `seisvel velest-analyse`)
 
 Finds a minimum 1-D velocity model by running VELEST from many random starting models, selects the
-best, and tests its stability. Needs the `velest` binary (`osv doctor`) and a completed Stage 1.
+best, and tests its stability. Needs the `velest` binary (`seisvel doctor`) and a completed Stage 1.
 
 ```bash
-osv velest-mc -c config.yaml        # Monte Carlo runs -> <workdir>/02_velest_mc/
-osv velest-analyse -c config.yaml   # analysis, final model, stability -> <workdir>/03_velest_analyse/
-osv run --to velest_analyse -c config.yaml   # prep + both, skipping up-to-date stages
-osv plot velest_analyse -c config.yaml       # regenerate figures from the written outputs
+seisvel velest-mc -c config.yaml        # Monte Carlo runs -> <workdir>/02_velest_mc/
+seisvel velest-analyse -c config.yaml   # analysis, final model, stability -> <workdir>/03_velest_analyse/
+seisvel run --to velest_analyse -c config.yaml   # prep + both, skipping up-to-date stages
+seisvel plot velest_analyse -c config.yaml       # regenerate figures from the written outputs
 ```
 
 Open `report.html` in each stage directory first.

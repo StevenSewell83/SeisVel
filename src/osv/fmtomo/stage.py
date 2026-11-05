@@ -369,7 +369,7 @@ def load_phase_data(stage3_dir: str | Path, phase: str, fm: Any) -> PhaseData:
     names = _FILES[phase]
     for key in ("vgrids", "sources", "receivers", "otimes", "mapping"):
         if not (d / names[key]).exists():
-            raise StageError(f"Stage 3 has no {d / names[key]}: run `osv build-model` first")
+            raise StageError(f"Stage 3 has no {d / names[key]}: run `seisvel build-model` first")
     grids = read_vgrids(d / names["vgrids"])
     sources = read_sources(d / names["sources"])
     receivers = read_receivers(d / names["receivers"])
@@ -651,7 +651,7 @@ def coupled_mode(fm: Any, phases: list[str]) -> str | None:
     if set(phases) != {"P", "S"}:
         raise StageError(
             "P+S coupled / Vp/Vs inversion needs Stage 3 data of both phases (S picks missing); "
-            "run `osv build-model` with fmtomo.phases containing S"
+            "run `seisvel build-model` with fmtomo.phases containing S"
         )
     if fm.relocate != "nonlinear":
         raise StageError(

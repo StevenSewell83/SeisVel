@@ -166,7 +166,7 @@ def _sample_geotiff(
     except ImportError as exc:  # pragma: no cover - depends on the environment
         raise InterfaceError(
             "reading a GeoTIFF DEM needs rasterio: install the 'geo' extra "
-            "(uv pip install 'openseisvelocity[geo]')"
+            "(uv pip install 'seisvel[geo]')"
         ) from exc
     if not path.exists():
         raise InterfaceError(f"DEM file not found: {path}")

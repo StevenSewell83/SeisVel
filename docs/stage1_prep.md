@@ -1,13 +1,13 @@
-# Stage 1: data preparation (`osv prep`)
+# Stage 1: data preparation (`seisvel prep`)
 
 Turns a QuakeML catalogue and StationXML files into clean, selected event, pick and station
 tables, ready-to-run VELEST inputs, diagnostic figures and an HTML report.
 
 ```bash
-osv prep -c config.yaml            # run (skipped if inputs/config are unchanged)
-osv prep -c config.yaml --force    # re-run
-osv run --to prep -c config.yaml   # same, via the pipeline
-osv plot prep -c config.yaml       # regenerate figures only
+seisvel prep -c config.yaml            # run (skipped if inputs/config are unchanged)
+seisvel prep -c config.yaml --force    # re-run
+seisvel run --to prep -c config.yaml   # same, via the pipeline
+seisvel plot prep -c config.yaml       # regenerate figures only
 ```
 
 Results are written to `<project.workdir>/01_prep/`; open `report.html` first.

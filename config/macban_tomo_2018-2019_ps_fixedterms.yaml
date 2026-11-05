@@ -1,4 +1,4 @@
-# openSeisVelocity configuration: MacBan 2018-2019 JOINT P+S WITH 3-D STATION TERMS ESTIMATED IN STAGE 3 (velocities fixed) - only the VELEST 1-D model is used; shallow nodes strongly damped; P and S terms subtracted like delays; workdir runs_ps_fixedterms.
+# SeisVel configuration: MacBan 2018-2019 JOINT P+S WITH 3-D STATION TERMS ESTIMATED IN STAGE 3 (velocities fixed) - only the VELEST 1-D model is used; shallow nodes strongly damped; P and S terms subtracted like delays; workdir runs_ps_fixedterms.
 # Run directory: /media/steve/fast9100/runs/macban_tomo_2018-2019/velest
 # Data: catalogue and StationXML exported there from the OpenMEQ run
 # (/media/steve/fast9100/runs/macban_tomo_2018-2019/config_snapshot.yaml).

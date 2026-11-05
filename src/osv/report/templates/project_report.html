@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>{{ project }} - osv project report</title>
+<title>{{ project }} - SeisVel project report</title>
 {% include "_style.html" %}
 <style>
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(18rem,1fr));gap:.8rem}
@@ -12,7 +12,7 @@ details>summary{cursor:pointer;color:var(--mut)}
 </style>
 </head><body>
 <h1>{{ project }}</h1>
-<p class="meta">openSeisVelocity {{ osv_version }} &middot; report generated {{ generated }} &middot; <code>{{ workdir }}</code></p>
+<p class="meta">SeisVel {{ osv_version }} &middot; report generated {{ generated }} &middot; <code>{{ workdir }}</code></p>
 <table class="kv">
 <tr><td>Config hash</td><td><code>{{ config_hash[:16] if config_hash else "-" }}</code></td></tr>
 <tr><td>osv version(s) used</td><td>{{ stage_versions | join(", ") or "-" }}</td></tr>

@@ -1,7 +1,7 @@
 # Optional GMT / PyGMT add-on (large: pulls GMT, GDAL, ghostscript).
 # install.sh applies it on top of environment.yml unless --no-gmt is given:
-#   conda env update -n osv -f environment-gmt.yml
-name: osv
+#   conda env update -n seisvel -f environment-gmt.yml
+name: seisvel
 channels:
   - conda-forge
   - nodefaults

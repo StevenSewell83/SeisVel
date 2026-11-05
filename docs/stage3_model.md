@@ -1,13 +1,13 @@
-# Stage 3: starting model and forward check (`osv build-model`)
+# Stage 3: starting model and forward check (`seisvel build-model`)
 
 Builds the 3-D starting model and every FMTOMO input for the inversion, then traces the observed
 rays through the model with `fm3d` to check how well it fits the picks. Needs the `fm3d` binary
-(`osv doctor`), a completed Stage 1 and the Stage 2 analysis (`velest_analyse`).
+(`seisvel doctor`), a completed Stage 1 and the Stage 2 analysis (`velest_analyse`).
 
 ```bash
-osv build-model -c config.yaml       # -> <workdir>/04_build_model/
-osv run --to build_model -c config.yaml
-osv plot build_model -c config.yaml  # regenerate figures from the written outputs
+seisvel build-model -c config.yaml       # -> <workdir>/04_build_model/
+seisvel run --to build_model -c config.yaml
+seisvel plot build_model -c config.yaml  # regenerate figures from the written outputs
 ```
 
 Open `report.html` first. A user model (grid, geology, wells; see `user_models.md`) is chosen with

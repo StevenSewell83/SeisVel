@@ -100,7 +100,7 @@ def generate_template(
     )
     values = base.model_dump(mode="json")
     head = [
-        "# openSeisVelocity configuration.",
+        "# SeisVel configuration.",
         "# All settings are validated when loaded; unknown keys are errors.",
         "# Relative paths are resolved against the directory containing this file.",
         "# ${VAR} and ${VAR:-default} are expanded from the environment.",

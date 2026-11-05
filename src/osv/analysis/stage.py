@@ -4,7 +4,7 @@ Reads the hand-off files of ``invert`` (``final_model.nc``, ``relocation.parquet
 ``residuals_final.parquet``, ``inversion_iterations.csv``, run directories), the starting model of
 ``build_model`` and, when it exists and is complete, the ``resolvable_mask.nc`` of the
 ``resolution`` stage (Stage 6, which comes *after* this stage in the pipeline).  The resolution
-stage is **not** a requirement: run ``osv plot analyse`` after it to add the ``*_resolvable``
+stage is **not** a requirement: run ``seisvel plot analyse`` after it to add the ``*_resolvable``
 figures and the resolvable masks in the exports.
 
 Outputs (stable names)
@@ -507,7 +507,7 @@ class AnalyseStage(Stage):
                     "resolution_not_applied",
                     "info",
                     "no completed resolution stage: figures are masked by DWS only; run "
-                    "`osv resolution` then `osv plot analyse` to add the resolvable masks",
+                    "`seisvel resolution` then `seisvel plot analyse` to add the resolvable masks",
                 )
             )
 

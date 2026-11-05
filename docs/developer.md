@@ -7,7 +7,7 @@ VELEST and FMTOMO (vendored under `fortran/`; every patch is listed in `fortran/
 
 | Subpackage | Role |
 |---|---|
-| `osv.config` | Pydantic schema (`schema.py`), loader (path/glob/env expansion), `osv init` template generator |
+| `osv.config` | Pydantic schema (`schema.py`), loader (path/glob/env expansion), `seisvel init` template generator |
 | `osv.io` | File formats; the only place that converts to program conventions (VELEST longitude sign, FMTOMO radians) |
 | `osv.coords` | Coordinate conversions (local projection, VELEST short-distance conversion) |
 | `osv.data` | Stage 1 (prep) |
@@ -39,7 +39,7 @@ A stage is a subclass of `osv.stages.Stage` registered with `@register`. The fra
 * staleness: a stage is skipped when complete and when the hash of its `config_sections`, the
   sha256 of its declared `inputs`, its upstream run ids, its tool hashes and its declared
   `outputs` are unchanged;
-* `--from`, `--to`, `--force`, and `osv plot` (calls `Stage.plot`).
+* `--from`, `--to`, `--force`, and `seisvel plot` (calls `Stage.plot`).
 
 ## Adding a stage
 
@@ -120,7 +120,7 @@ gates, records a `bd note`, and does not commit, push or close. See `CLAUDE.md`.
 ## Continuous integration
 
 `.github/workflows/ci.yml` runs: lint (`ruff check`, advisory `ruff format --check`); unit tests
-(builds the Fortran code with `scripts/build_fortran.sh`, `osv doctor --quick`,
+(builds the Fortran code with `scripts/build_fortran.sh`, `seisvel doctor --quick`,
 `pytest -m "not integration"`); integration tests (`pytest -m integration`); an `install.sh
 --dry-run` (a full conda install on manual dispatch); and a Docker image build with
-`osv doctor --quick`. Documentation is built with `mkdocs build --strict`.
+`seisvel doctor --quick`. Documentation is built with `mkdocs build --strict`.

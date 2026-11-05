@@ -2,7 +2,7 @@
 
 # Configuration reference
 
-Every setting of `config.yaml`, generated from the pydantic schema (`src/osv/config/schema.py`). `osv init DIR` writes a template with the same descriptions as comments; `osv config show` prints the settings in use. Unknown keys are errors. Relative paths are resolved against the directory containing the config file, and `${VAR}` / `${VAR:-default}` are expanded from the environment.
+Every setting of `config.yaml`, generated from the pydantic schema (`src/osv/config/schema.py`). `seisvel init DIR` writes a template with the same descriptions as comments; `seisvel config show` prints the settings in use. Unknown keys are errors. Relative paths are resolved against the directory containing the config file, and `${VAR}` / `${VAR:-default}` are expanded from the environment.
 
 Types: *list[[lower, upper]]* is a list of two-number pairs; *[lat/lon]* is a `[latitude, longitude]` pair in degrees; *null* means the key may be unset. Nested sections are written as YAML mappings; entries marked `[]` are lists of mappings.
 

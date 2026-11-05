@@ -1,4 +1,4 @@
-"""Command line interface for openSeisVelocity (`osv`).
+"""Command line interface for SeisVel (`seisvel`).
 
 Each command is a separate function so later tasks can replace one at a time.
 """
@@ -15,8 +15,8 @@ from osv._proj import ensure_proj_data
 from osv.config import ConfigError, OSVConfig, dump_config, load_config, write_template
 
 app = typer.Typer(
-    name="osv",
-    help="openSeisVelocity: seismic velocity inversion with VELEST and FMTOMO.",
+    name="seisvel",
+    help="SeisVel: seismic velocity inversion with VELEST and FMTOMO.",
     no_args_is_help=True,
     add_completion=False,
 )
@@ -25,7 +25,7 @@ app.add_typer(config_app, name="config")
 
 
 def _not_implemented(name: str) -> None:
-    typer.echo(f"osv {name}: not implemented yet", err=True)
+    typer.echo(f"seisvel {name}: not implemented yet", err=True)
     raise typer.Exit(code=1)
 
 
@@ -41,7 +41,7 @@ def main(
         False, "--version", callback=_version_callback, is_eager=True, help="Show version and exit."
     ),
 ) -> None:
-    """openSeisVelocity command line."""
+    """SeisVel command line."""
     ensure_proj_data()
 
 
@@ -119,7 +119,7 @@ def _execute(
 
 
 def bind_stage_command(name: str, help_text: str) -> None:
-    """Register ``osv <name>`` running that stage (placeholder until the stage exists).
+    """Register ``seisvel <name>`` running that stage (placeholder until the stage exists).
 
     A later task only has to register its `osv.stages.Stage` subclass (and list
     its module in `osv.stages.STAGE_MODULES`); this command then runs it with

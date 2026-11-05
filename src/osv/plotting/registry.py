@@ -23,7 +23,7 @@ class FigureRegistry:
     """Saves figures into ``figures_dir`` and tracks them in ``figures.json``.
 
     Entries are keyed by figure name: saving a name again replaces its entry, so
-    regenerating figures (``osv plot``) is idempotent.
+    regenerating figures (``seisvel plot``) is idempotent.
     """
 
     figures_dir: Path

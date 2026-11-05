@@ -40,7 +40,7 @@ Implementing a stage::
         def plot(self, ctx):
             fig.savefig(ctx.figures_dir / "map.png")
 
-The CLI command ``osv prep`` is bound automatically once the stage is
+The CLI command ``seisvel prep`` is bound automatically once the stage is
 registered (see `STAGE_MODULES` for where the CLI imports stage classes from).
 """
 
@@ -345,7 +345,8 @@ class StageContext:
         if m is None or m.get("status") != COMPLETE:
             raise MissingUpstreamError(
                 f"Stage '{self.stage.name}' needs stage '{name}' to be complete "
-                f"(status: {m.get('status') if m else 'not run'}). Run `osv run --to {name}` first."
+                f"(status: {m.get('status') if m else 'not run'}). "
+                f"Run `seisvel run --to {name}` first."
             )
         return UpstreamStage(name, d, m)
 
@@ -629,7 +630,7 @@ def run_pipeline(
             if up is None or up.get("status") != COMPLETE:
                 raise MissingUpstreamError(
                     f"Stage '{stage.name}' requires stage '{req}', which has not completed. "
-                    f"Run `osv run --to {req}` (or include it in --from/--to)."
+                    f"Run `seisvel run --to {req}` (or include it in --from/--to)."
                 )
         reason = "forced" if force else stale_reason(ctx, stage)
         if reason is None:
@@ -650,7 +651,7 @@ def plot_only(cfg: OSVConfig, stage: str, project_dir: Path | None = None) -> No
     m = read_manifest(ctx.stage_dir)
     if m is None or m.get("status") != COMPLETE:
         raise MissingUpstreamError(
-            f"Stage {inst.name!r} has not completed; run `osv run --to {inst.name}` first."
+            f"Stage {inst.name!r} has not completed; run `seisvel run --to {inst.name}` first."
         )
     ctx.prepare_dirs()
     with _file_logging(ctx, "plot.log"):

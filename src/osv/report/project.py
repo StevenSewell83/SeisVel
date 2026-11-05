@@ -372,7 +372,7 @@ def render_project_summary(data: dict[str, Any], out_path: Path) -> Path:
     """Write the compact Markdown summary (for pasting into notes)."""
     L = [f"# {data['project']}", ""]
     L.append(
-        f"openSeisVelocity {data['osv_version']}; run {data['first_start']} to "
+        f"SeisVel {data['osv_version']}; run {data['first_start']} to "
         f"{data['last_finish']}; {data['n_run']} stages complete; "
         f"{data['n_fail']} fail, {data['n_warn']} warn."
     )

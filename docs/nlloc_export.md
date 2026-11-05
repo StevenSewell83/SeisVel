@@ -1,7 +1,7 @@
-# Exporting the model for NonLinLoc (`osv export-nlloc`)
+# Exporting the model for NonLinLoc (`seisvel export-nlloc`)
 
 ```bash
-osv export-nlloc -c config.yaml --out nlloc_model --root macban3d --origin 14.1 121.21
+seisvel export-nlloc -c config.yaml --out nlloc_model --root macban3d --origin 14.1 121.21
 ```
 
 Writes, from a project whose `invert` stage has completed:

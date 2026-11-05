@@ -1,4 +1,4 @@
-"""Tests for ``osv doctor`` (unit tests with monkeypatched tools, plus an integration run)."""
+"""Tests for ``seisvel doctor`` (unit tests with monkeypatched tools, plus an integration run)."""
 
 from __future__ import annotations
 

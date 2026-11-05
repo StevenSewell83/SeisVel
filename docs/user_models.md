@@ -7,9 +7,9 @@ Two inputs are supported here: a complete **3-D velocity grid** (`source: user_g
 
 ## Conventions (read this first)
 
-* Coordinates inside osv are latitude/longitude (WGS84, north and east positive).
+* Coordinates inside SeisVel are latitude/longitude (WGS84, north and east positive).
 * **Depth** is in km, positive down, measured from sea level. Elevation is metres, positive up.
-* Tell osv how *your* files store z: `z_convention: depth` (positive down) or
+* Tell SeisVel how *your* files store z: `z_convention: depth` (positive down) or
   `elevation` (positive up), and `units: m` or `km`. Getting this wrong flips or scales your
   model, so check the log line reporting coverage and the Stage 3 figures.
 * Horizontal coordinates in projected systems (e.g. NZTM, `EPSG:2193`) are given with `crs`.
@@ -74,7 +74,7 @@ model3d:
 | Format | Suffix | Notes |
 | --- | --- | --- |
 | XYZ ASCII | `.xyz .txt .csv .dat` | three columns `x y z`; `#` comments and a text header line are skipped; scattered points are triangulated, NaN outside their outline |
-| GeoTIFF | `.tif .tiff` | needs `rasterio` (`pip install openseisvelocity[geo]`); the file's CRS is used unless `crs` is given; nodata cells are undefined |
+| GeoTIFF | `.tif .tiff` | needs `rasterio` (`pip install seisvel[geo]`); the file's CRS is used unless `crs` is given; nodata cells are undefined |
 | GOCAD TSurf | `.ts .tsurf` | `VRTX`/`PVRTX` + `TRGL`; triangles interpolated linearly. The `ZPOSITIVE` header is ignored in favour of your `z_convention` (a warning is logged on mismatch) |
 
 Each surface is evaluated at the model's lateral nodes, giving depth (km bsl); outside the
@@ -89,7 +89,7 @@ surface the value is undefined (NaN).
 * Where any surface is undefined, the whole lateral column falls back to the background and
   the count is reported.
 * **Crossing surfaces** (a deeper horizon above a shallower one) would give negative
-  thickness. osv clips the deeper surface to the one above (zero-thickness unit) and reports
+  thickness. SeisVel clips the deeper surface to the one above (zero-thickness unit) and reports
   how many nodes were affected. If that number is large, fix the surfaces instead.
 * A unit-ID volume (`unit_id`, `-1` = background) is produced alongside Vp and Vs.
 

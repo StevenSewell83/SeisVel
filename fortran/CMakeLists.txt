@@ -1,4 +1,4 @@
-# Build VELEST, FMTOMO v1.2 and FMTOMO Extras v1.1 for openSeisVelocity.
+# Build VELEST, FMTOMO v1.2 and FMTOMO Extras v1.1 for SeisVel.
 # Normally driven by scripts/build_fortran.sh; usable directly:
 #   cmake -S fortran -B build/fortran -DOSV_BIN_DIR=$PWD/build/bin && cmake --build build/fortran -j && cmake --install build/fortran
 cmake_minimum_required(VERSION 3.16)
@@ -78,7 +78,7 @@ endif()
 # that bash lacks is `print -u<fd> text`, so they are installed with a bash
 # shebang plus a small `print` shim (vendored files are left untouched).
 set(OSV_PRINT_SHIM "#!/usr/bin/env bash
-# Installed by openSeisVelocity: bash port of a ksh script (adds print -u<fd> shim).
+# Installed by SeisVel: bash port of a ksh script (adds print -u<fd> shim).
 print() { if [[ \"$1\" == -u* ]]; then local fd=\"\${1#-u}\"; shift; printf '%s\\n' \"$*\" >&\"$fd\"; else printf '%s\\n' \"$*\"; fi; }
 ")
 function(osv_install_script src outname)
@@ -152,7 +152,7 @@ if(OSV_BUILD_EXTRAS)
 endif()
 
 # ---------------------------------------------------------------- build_info.json
-# Record how this build was made (read by `osv doctor`).
+# Record how this build was made (read by `seisvel doctor`).
 execute_process(COMMAND git -C "${CMAKE_CURRENT_SOURCE_DIR}" rev-parse --short HEAD
                 OUTPUT_VARIABLE _osv_git OUTPUT_STRIP_TRAILING_WHITESPACE ERROR_QUIET)
 if(NOT _osv_git)

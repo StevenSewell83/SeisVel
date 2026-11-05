@@ -7,7 +7,7 @@ Usage::
     python scripts/gen_config_reference.py --check    # exit 1 if the file is out of date
 
 Both modes also cover ``config/config.example.yaml``, the fully commented example config
-(the same text ``osv init`` writes), when the default output is used.
+(the same text ``seisvel init`` writes), when the default output is used.
 
 ``tests/test_docs.py`` runs the check so schema changes keep the docs in sync.
 """
@@ -212,8 +212,8 @@ def generate() -> str:
         "# Configuration reference",
         "",
         "Every setting of `config.yaml`, generated from the pydantic schema "
-        "(`src/osv/config/schema.py`). `osv init DIR` writes a template with the same "
-        "descriptions as comments; `osv config show` prints the settings in use. Unknown keys "
+        "(`src/osv/config/schema.py`). `seisvel init DIR` writes a template with the same "
+        "descriptions as comments; `seisvel config show` prints the settings in use. Unknown keys "
         "are errors. Relative paths are resolved against the directory containing the config "
         "file, and `${VAR}` / `${VAR:-default}` are expanded from the environment.",
         "",

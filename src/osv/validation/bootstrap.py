@@ -154,7 +154,7 @@ class BootstrapInputs:
         vg, so, re_, ot, mp = (d / n for n in _FILES[phase])
         for p in (vg, so, re_, ot, d / "interfaces.in", d / "propgrid.in"):
             if not p.exists():
-                raise BootstrapError(f"{p} not found: run `osv build-model` first")
+                raise BootstrapError(f"{p} not found: run `seisvel build-model` first")
         return cls(
             vg, d / "interfaces.in", d / "propgrid.in", so, re_, ot, mp if mp.exists() else None,
             phase,

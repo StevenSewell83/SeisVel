@@ -128,8 +128,8 @@ def _write_netcdf(ds: xr.Dataset, path: Path, masks: set[str]) -> Path:
     out["lon"].attrs.update(units="degrees_east", standard_name="longitude", axis="X")
     out.attrs.update(
         Conventions="CF-1.8",
-        title="openSeisVelocity model export",
-        source="openSeisVelocity (FMTOMO inversion)",
+        title="SeisVel model export",
+        source="SeisVel (FMTOMO inversion)",
     )
     for k in list(out.attrs):  # netCDF attributes cannot hold arbitrary objects
         if not isinstance(out.attrs[k], (str, int, float, np.number, np.ndarray, list, tuple)):
@@ -192,7 +192,7 @@ def _write_vtk_structured(ds: xr.Dataset, path: Path, names: list[str], backend:
     n = len(pts)
     parts = [
         "# vtk DataFile Version 3.0",
-        "openSeisVelocity model (x east km, y north km, z up km)",
+        "SeisVel model (x east km, y north km, z up km)",
         "ASCII",
         "DATASET STRUCTURED_GRID",
         f"DIMENSIONS {dims[0]} {dims[1]} {dims[2]}",
@@ -215,7 +215,7 @@ def write_vtk_points(
     n = len(xyz)
     parts = [
         "# vtk DataFile Version 3.0",
-        "openSeisVelocity points (x east km, y north km, z up km)",
+        "SeisVel points (x east km, y north km, z up km)",
         "ASCII",
         "DATASET POLYDATA",
         f"POINTS {n} float",

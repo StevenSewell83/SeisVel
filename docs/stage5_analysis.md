@@ -1,11 +1,11 @@
-# Stage 5: analysis of the inversion (`osv analyse`)
+# Stage 5: analysis of the inversion (`seisvel analyse`)
 
 Turns the result of the final inversion into figures, exports, summary numbers and QC checks.
 Needs completed `invert`, `build_model`, `prep` and `velest_analyse`; no binaries are run.
 
 ```bash
-osv analyse -c config.yaml        # -> <workdir>/07_analyse/
-osv plot analyse -c config.yaml   # regenerate figures and exports without re-running
+seisvel analyse -c config.yaml        # -> <workdir>/07_analyse/
+seisvel plot analyse -c config.yaml   # regenerate figures and exports without re-running
 ```
 
 Open `report.html` first.
@@ -15,7 +15,7 @@ Open `report.html` first.
 `resolution` comes after `analyse` in the pipeline and is **not** required. If
 `<workdir>/08_resolution/` is complete when `analyse` runs, its `resolvable_mask.nc` is used. If
 not, the figures are masked by ray coverage only (check `resolution_not_applied`). Run
-`osv resolution` and then `osv plot analyse` to add the `*_resolvable` figures (masked by DWS AND
+`seisvel resolution` and then `seisvel plot analyse` to add the `*_resolvable` figures (masked by DWS AND
 resolvable) and the `resolvable_*` masks in `exports/`. A failed or incomplete resolution stage is
 ignored.
 
@@ -63,7 +63,7 @@ than 1 km).
 ## QC checks and what to do
 
 - `variance_increased` (fail), `poor_variance_reduction` (warn, below 10%): the final model fits no
-  better than the start. Check regularisation (`osv tradeoff`), data weights and the starting model.
+  better than the start. Check regularisation (`seisvel tradeoff`), data weights and the starting model.
 - `change_outside_coverage`: more than 5% of the uncovered nodes changed by over 10%: the damping or
   smoothing is too weak where no rays constrain the model; raise it or mask these nodes.
 - `small_coverage`: under 5% of the volume has DWS above the threshold: lower

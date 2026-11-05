@@ -1,4 +1,4 @@
-# Stage 7: validation (`osv validation`)
+# Stage 7: validation (`seisvel validation`)
 
 Relocates the events held out in Stage 1 (`events.split == "validation"`, fraction
 `data_selection.validation_fraction`) twice with the same picks: with VELEST in the final 1-D model
@@ -8,16 +8,16 @@ did not take part in the inversion, a better fit with the 3-D model is evidence 
 and not over-fitted.
 
 ```bash
-osv validation -c config.yaml        # -> <workdir>/09_validation/
-osv run --to validation -c config.yaml
-osv plot validation -c config.yaml   # regenerate figures from the written outputs
+seisvel validation -c config.yaml        # -> <workdir>/09_validation/
+seisvel run --to validation -c config.yaml
+seisvel plot validation -c config.yaml   # regenerate figures from the written outputs
 ```
 
 Needs `prep`, `velest_analyse` and `build_model`; `invert` is used when it has completed. Its
 `final_vgrids.in` is then the 3-D model. Without it the Stage 3 starting model
 (`04_build_model/fmtomo/vgrids.in`) is used and a `validation_starting_model` warning is recorded.
 `interfaces.in` and `propgrid.in` always come from `04_build_model/fmtomo/`. The stage is marked
-stale when `final_vgrids.in` changes. Needs the VELEST and FMTOMO binaries (`osv doctor`).
+stale when `final_vgrids.in` changes. Needs the VELEST and FMTOMO binaries (`seisvel doctor`).
 
 ## Bootstrap / jackknife (optional)
 
@@ -43,7 +43,7 @@ samples succeeded; the stage still completes), `bootstrap_few_samples` (fewer th
 Keys (`validation.bootstrap.*`): `enabled`, `method` (`bootstrap`/`jackknife`), `n_samples`, `seed`,
 `max_concurrent`, `iterations`, `delete_fraction`, `interval_percent`, `min_free_disk_gb`,
 `min_ok_fraction` (default 0.8), `std_warn_pct` (default 3). Re-running skips finished samples.
-`osv plot validation` does not redraw the bootstrap figures (they are made during the run).
+`seisvel plot validation` does not redraw the bootstrap figures (they are made during the run).
 
 ## Config keys (`validation.*`)
 

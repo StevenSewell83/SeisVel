@@ -167,7 +167,7 @@ def _import_lasio() -> Any:
     except ImportError as exc:  # pragma: no cover - exercised only without the geo extra
         raise ImportError(
             "reading LAS well logs requires the 'lasio' package; install it with "
-            "`pip install lasio` (or `pip install openseisvelocity[geo]`)"
+            "`pip install lasio` (or `pip install seisvel[geo]`)"
         ) from exc
     return lasio
 

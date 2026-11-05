@@ -617,7 +617,7 @@ def relocate_1d(
     ctrl = VelestControl.from_origin(
         olat,
         olon,
-        title=f"osv validation 1D {len(ev)} events"[:80],
+        title=f"seisvel validation 1D {len(ev)} events"[:80],
         neqs=len(ev),
         zshift=0.0,
         iuseelev=1,

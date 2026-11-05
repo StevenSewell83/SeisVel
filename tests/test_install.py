@@ -229,5 +229,7 @@ def test_full_venv_install(tmp_path: Path) -> None:
         timeout=1800,
     )
     assert again.returncode == 0, "re-running must be idempotent"
-    v = subprocess.run([str(prefix / "bin" / "osv"), "--version"], capture_output=True, text=True)
+    v = subprocess.run(
+        [str(prefix / "bin" / "seisvel"), "--version"], capture_output=True, text=True
+    )
     assert v.returncode == 0

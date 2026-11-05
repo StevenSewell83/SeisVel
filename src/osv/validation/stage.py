@@ -236,8 +236,9 @@ class ValidationStage(Stage):
                     "validation_starting_model",
                     "warn",
                     "the invert stage has not completed: the held-out events were relocated in "
-                    "the Stage 3 starting model, not the inverted model (run `osv invert`, then "
-                    "`osv validation --force`)",
+                    "the Stage 3 starting model, not the inverted model "
+                    "(run `seisvel invert`, then "
+                    "`seisvel validation --force`)",
                 )
             )
         else:

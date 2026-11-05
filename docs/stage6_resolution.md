@@ -1,4 +1,4 @@
-# Stage 6: resolution tests (`osv resolution`)
+# Stage 6: resolution tests (`seisvel resolution`)
 
 Inverts synthetic data for known models with the real source-receiver geometry, noise matched to
 the pick uncertainties and the same regularisation, iterations and relocation as the real
@@ -6,12 +6,12 @@ inversion, then measures how well each model is recovered. Needs `build_model` a
 (damping and smoothing per phase from `tradeoff.json`); `invert` is optional but recommended.
 
 ```bash
-osv resolution -c config.yaml        # -> <workdir>/08_resolution/
-osv run --to resolution -c config.yaml
-osv plot resolution -c config.yaml   # regenerate figures from the written outputs
+seisvel resolution -c config.yaml        # -> <workdir>/08_resolution/
+seisvel run --to resolution -c config.yaml
+seisvel plot resolution -c config.yaml   # regenerate figures from the written outputs
 ```
 
-Needs the FMTOMO binaries (`osv doctor`) and at least 3 GB of free disk; it stops early with a
+Needs the FMTOMO binaries (`seisvel doctor`) and at least 3 GB of free disk; it stops early with a
 message otherwise. Tests are resumable: a finished test with unchanged settings is skipped.
 
 ## Config keys (`resolution.*`, `fmtomo.*`)

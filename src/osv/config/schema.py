@@ -1,7 +1,7 @@
 """Pydantic v2 schema for ``config.yaml``.
 
 Every user-changeable setting lives here, with its default and a description. The
-descriptions are used to generate the commented ``osv init`` template and the config
+descriptions are used to generate the commented ``seisvel init`` template and the config
 reference documentation. Unknown keys are rejected so typos give errors.
 
 Field metadata (``json_schema_extra``):
@@ -1446,7 +1446,7 @@ class ReportConfig(_Base):
 
 
 class OSVConfig(_Base):
-    """Top-level openSeisVelocity configuration (the contents of ``config.yaml``)."""
+    """Top-level SeisVel configuration (the contents of ``config.yaml``)."""
 
     project: ProjectConfig = FF(ProjectConfig, "Project identity and run-wide settings.")
     inputs: InputsConfig = FF(InputsConfig, "Input data files and how to read them.")

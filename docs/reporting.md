@@ -1,6 +1,6 @@
 # Project report
 
-`osv report -c config.yaml` (also the last step of `osv run`) aggregates every stage directory
+`seisvel report -c config.yaml` (also the last step of `seisvel run`) aggregates every stage directory
 into one page. It works at any time and shows whatever stages exist; missing stages appear as
 "not run".
 
@@ -12,7 +12,7 @@ into one page. It works at any time and shows whatever stages exist; missing sta
 | `<workdir>/index.html` | Same page with links relative to the work directory; open this one. |
 | `<workdir>/10_report/summary.md` | Compact Markdown summary to paste into notes. |
 
-The page contains: project header (name, config hash, osv and tool versions, run dates), the
+The page contains: project header (name, config hash, SeisVel and tool versions, run dates), the
 pipeline status table (status, run time, last run, fail/warn counts, link to each stage report),
 all QC failures and warnings grouped by stage, headline numbers per stage (events and picks,
 Vp/Vs, 1-D model table and RMS, grid size, chosen damping and smoothing, variance reduction,

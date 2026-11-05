@@ -1,4 +1,4 @@
-"""``osv doctor``: check the installation, the external tools and run smoke tests.
+"""``seisvel doctor``: check the installation, the external tools and run smoke tests.
 
 Every check yields a `Check` with status ``ok``/``warn``/``fail`` and, unless ok, a
 fix hint. `run_doctor` collects them; `render_text` and `to_json` format the report.
@@ -800,7 +800,7 @@ def run_doctor(
                     "config",
                     FAIL,
                     f"cannot load {config}: {exc}",
-                    "Fix the config (see `osv config show`).",
+                    "Fix the config (see `seisvel config show`).",
                     "project",
                 )
             )
@@ -861,7 +861,7 @@ def render_text(checks: list[Check], *, use_rich: bool = True) -> str:
             from rich.console import Console
             from rich.table import Table
 
-            table = Table(title="osv doctor", show_lines=False)
+            table = Table(title="seisvel doctor", show_lines=False)
             for col in ("Status", "Check", "Result", "Time"):
                 table.add_column(col, overflow="fold")
             for c in checks:

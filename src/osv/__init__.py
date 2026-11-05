@@ -1,4 +1,4 @@
-"""openSeisVelocity: seismic velocity inversion with VELEST and FMTOMO."""
+"""SeisVel: seismic velocity inversion with VELEST and FMTOMO."""
 
 from __future__ import annotations
 

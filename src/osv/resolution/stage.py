@@ -290,7 +290,7 @@ class ResolutionStage(Stage):
                     "final_3d_skipped",
                     "warn",
                     "input model 'final_3d' skipped: the invert stage has not completed "
-                    "(run `osv invert`, then `osv resolution --force`)",
+                    "(run `seisvel invert`, then `seisvel resolution --force`)",
                 )
             )
         for k in ("user_model", "starting"):

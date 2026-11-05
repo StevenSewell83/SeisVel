@@ -2,8 +2,8 @@ Bootstrap: docker
 From: python:3.11-slim-bookworm
 
 # Self-contained definition (does not need the Docker image). Build from the repo root:
-#   apptainer build osv.sif apptainer.def
-# Or convert a Docker image instead:  apptainer build osv.sif docker-daemon://osv:latest
+#   apptainer build seisvel.sif apptainer.def
+# Or convert a Docker image instead:  apptainer build seisvel.sif docker-daemon://seisvel:latest
 # See docs/containers.md.
 
 %files
@@ -18,7 +18,7 @@ From: python:3.11-slim-bookworm
     apt-get update
     apt-get install -y --no-install-recommends gfortran cmake make libgomp1
     cd /src
-    scripts/build_fortran.sh --prefix /opt/osv --build-dir /tmp/fbuild --jobs "$(nproc)"
+    scripts/build_fortran.sh --prefix /opt/seisvel --build-dir /tmp/fbuild --jobs "$(nproc)"
     rm -rf /tmp/fbuild
     python -m venv /opt/venv
     PIP_NO_CACHE_DIR=1 /opt/venv/bin/pip install .
@@ -31,19 +31,19 @@ From: python:3.11-slim-bookworm
 
 %environment
     export PATH=/opt/venv/bin:$PATH
-    export OSV_TOOLS_DIR=/opt/osv/bin/osv-tools
+    export OSV_TOOLS_DIR=/opt/seisvel/bin/osv-tools
     export MPLBACKEND=Agg
     export MPLCONFIGDIR=${TMPDIR:-/tmp}/matplotlib-$(id -u)
 
 %runscript
-    exec osv "$@"
+    exec seisvel "$@"
 
 %test
-    osv doctor --quick
+    seisvel doctor --quick
 
 %labels
-    Description openSeisVelocity (VELEST + FMTOMO workflow)
+    Description SeisVel (VELEST + FMTOMO workflow)
 
 %help
-    apptainer run osv.sif doctor --quick
-    apptainer run --bind /data/project:/work osv.sif doctor --config /work/config.yaml
+    apptainer run seisvel.sif doctor --quick
+    apptainer run --bind /data/project:/work seisvel.sif doctor --config /work/config.yaml
